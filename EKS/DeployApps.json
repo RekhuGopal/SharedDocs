@@ -1,0 +1,26 @@
+## reate a Kubernetes namespace for the sample app
+kubectl create namespace my-namespace
+
+## Create a Kubernetes service and deployment.
+kubectl apply -f sample-service.yaml
+
+## View all resources that exist in the my-namespace namespace.
+kubectl get all -n my-namespace
+
+## View the details of the deployed service.
+kubectl -n my-namespace describe service my-service
+
+kubectl -n my-namespace get service my-service
+
+## Lets patch the service to use loadbalancer
+kubectl -n my-namespace patch svc my-service -p '{"spec": {"type": "LoadBalancer"}}'
+
+
+## View the details of one of the pods that was deployed.
+kubectl -n my-namespace describe pod my-deployment-6dc9f7ff94-2rw6x
+
+##Execute a shell on one of the pods by replacing the <value> below with a value returned for one of your pods in step 3.
+kubectl exec -it my-deployment-6dc9f7ff94-2rw6x -n my-namespace -- /bin/bash
+
+## View the DNS resolver configuration file.
+cat /etc/resolv.conf

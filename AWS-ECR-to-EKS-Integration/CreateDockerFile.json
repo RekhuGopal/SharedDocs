@@ -1,0 +1,60 @@
+## Install and run docker
+
+## Create docker file
+touch Dockerfile
+
+## Add below contents
+"FROM ubuntu:18.04
+
+# Install dependencies
+RUN apt-get update && \
+ apt-get -y install apache2
+
+# Install apache and write hello world message
+RUN echo 'Hello World!' > /var/www/html/index.html
+
+# Configure apache
+RUN echo '. /etc/apache2/envvars' > /root/run_apache.sh && \
+ echo 'mkdir -p /var/run/apache2' >> /root/run_apache.sh && \
+ echo 'mkdir -p /var/lock/apache2' >> /root/run_apache.sh && \ 
+ echo '/usr/sbin/apache2 -D FOREGROUND' >> /root/run_apache.sh && \ 
+ chmod 755 /root/run_apache.sh
+
+EXPOSE 80
+
+CMD /root/run_apache.sh"
+
+## cd to folder where above is kept
+
+## build docker image
+docker build -t hello-world .
+
+## Run docker image
+docker images --filter reference=hello-world
+
+##Run the newly built image. The -p 80:80 option maps the exposed port 80 on the container to port 80 on the host system.
+docker run -t -i -p 80:80 hello-world
+
+##If you are running Docker locally, point your browser to http://localhost/.
+
+
+## Authenticate to your default registry
+## New system new - Access Key and Secrete for AWS CLI login
+
+## Create you ecr repo
+aws ecr create-repository --repository-name hello-world --region us-east-1
+	
+## Authenticate your docker to ecr == > gives encrypted password for docker
+aws ecr get-login-password --region us-east-1
+
+## Final Authenticate to ecr
+aws ecr --region us-east-1 | docker login -u AWS -p <Above encrytped password> 357171621133.dkr.ecr.us-east-1.amazonaws.com/hello-world
+
+## docker tag
+docker tag hello-world:latest 357171621133.dkr.ecr.us-east-1.amazonaws.com/hello-world:latest
+
+## docker push
+docker push 357171621133.dkr.ecr.us-east-1.amazonaws.com/hello-world:latest
+
+
+

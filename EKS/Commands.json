@@ -1,0 +1,16 @@
+## Pre-requisite links
+https://docs.aws.amazon.com/eks/latest/userguide/getting-started-eksctl.html
+
+## Create EKS cluster
+eksctl create cluster --name cqpocseksdeployapp --node-type t2.micro --nodes 3 --nodes-min 3 --nodes-max 5 --region us-east-1
+
+## Get EKS Cluster service
+eksctl get cluster --name learnk8s-cluster --region us-east-1
+
+## Get EKS Pod data.
+kubectl get pods --all-namespaces
+
+## Delete EKS cluster
+eksctl delete cluster --name learnk8s-cluster --region us-east-1
+
+##cleanup resources, run 'eksctl delete cluster --region=us-east-1 --name=learnk8s-cluster'
