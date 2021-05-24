@@ -48,13 +48,13 @@ aws ecr create-repository --repository-name hello-world --region us-east-1
 aws ecr get-login-password --region us-east-1
 
 ## Final Authenticate to ecr
-aws ecr --region us-east-1 | docker login -u AWS -p <Above encrytped password> 357171621133.dkr.ecr.us-east-1.amazonaws.com/hello-world
+aws ecr --region us-east-1 | docker login -u AWS -p <Above encrytped password> <ACCOUNTID>.dkr.ecr.us-east-1.amazonaws.com/hello-world
 
 ## docker tag
-docker tag hello-world:latest 357171621133.dkr.ecr.us-east-1.amazonaws.com/hello-world:latest
+docker tag hello-world:latest <ACCOUNTID>.dkr.ecr.us-east-1.amazonaws.com/hello-world:latest
 
 ## docker push
-docker push 357171621133.dkr.ecr.us-east-1.amazonaws.com/hello-world:latest
+docker push <ACCOUNTID>.dkr.ecr.us-east-1.amazonaws.com/hello-world:latest
 
 
 

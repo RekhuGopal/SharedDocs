@@ -2,7 +2,7 @@
 aws ecr create-repository --repository-name artifact-test --region us-east-1
 
 #Authenticate your Helm client to the Amazon ECR registry
-aws ecr get-login-password --region us-east-1 | helm registry login --username AWS --password-stdin 357171621133.dkr.ecr.us-east-1.amazonaws.com
+aws ecr get-login-password --region us-east-1 | helm registry login --username AWS --password-stdin <ACCOUNTID>.dkr.ecr.us-east-1.amazonaws.com
 
 #make dir helm-tutorial
 #cd helm-tutorial
@@ -23,13 +23,13 @@ EOF
 #Save the chart locally and create an alias for the chart with your registry URI.
 cd ..
 helm chart save . mychart
-helm chart save . 357171621133.dkr.ecr.us-east-1.amazonaws.com/artifact-test:mychart
+helm chart save . <ACCOUNTID>.dkr.ecr.us-east-1.amazonaws.com/artifact-test:mychart
 
 #Identify the Helm chart to push. Run the helm chart list command to list the Helm charts on your system.
 helm chart list
 
 #Push the Helm chart using the helm chart push command
-helm chart push 357171621133.dkr.ecr.us-east-1.amazonaws.com/artifact-test:mychart
+helm chart push <ACCOUNTID>.dkr.ecr.us-east-1.amazonaws.com/artifact-test:mychart
 
 #Describe your Helm chart.
 aws ecr describe-images --repository-name artifact-test --region us-east-1
