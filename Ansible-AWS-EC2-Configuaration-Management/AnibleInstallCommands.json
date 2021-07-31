@@ -1,0 +1,65 @@
+## Change user to "root"
+sudo su -
+
+## installing pre-requisites
+apt-get update
+apt-get install software-properties-common
+
+## Install Python
+sudo apt install python3.8
+python3 --version
+
+## installing ansible in ansible master instance
+apt-add-repository ppa:ansible/ansible
+apt-get update
+apt-get install ansible
+
+## check ansible with
+ansible --version
+
+## To establish ssh connection between ansible master and clients
+## generating id_rsa.pub  public key in ansible master instance to ansible client instance
+
+ssh-keygen -t rsa
+cd .ssh
+ls
+cat id_rsa.pub
+
+## In all ansible client Ec2 Instances
+cd .ssh
+ls
+
+##Here you can see the authorized_keys file.[If the file is not existed here create the file with touch command
+##touch authorized_keys  and paste the id_rsa.pub key in this file ]
+
+vi  authorized_keys
+
+##Create Ansible AWS Inventory in Ansible Master Node
+cd /etc/ansible
+vi hosts
+##add like below
+[web]
+x.x.x.x
+
+################### Tutorial - Ansible Playbook Example ########################################
+## Create an Ansible playbook.
+mkdir /tmp/playbook
+vi playbook-test.yaml
+
+## Here is the content of the Ansible playbook named: playbook-test.yaml
+---
+- hosts: all
+  become: yes
+  tasks:
+  - name: Install packages
+    apt:
+      name:
+      - ntpdate
+      state: latest
+      cache_valid_time: 3600
+	  
+	  
+## In our example, the Ansible server will install the NTPDATE package using APT-GET on all hosts.
+
+## Use the following command to run your playbook.
+ansible-playbook playbook-test.yaml
